@@ -2,16 +2,29 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.564900900235-mll65hq94vte2tqq9kjc91i29i934ckm</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDClientID</key>
+	<string>564900900235-mll65hq94vte2tqq9kjc91i29i934ckm.apps.googleusercontent.com</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>DMSans-Regular.ttf</string>
 		<string>DMSans-Medium.ttf</string>
 		<string>DMSans-SemiBold.ttf</string>
 		<string>DMSans-Bold.ttf</string>
-        <string>Nunito-Regular.ttf</string>
-        <string>Nunito-Medium.ttf</string>
-        <string>Nunito-SemiBold.ttf</string>
-        <string>Nunito-Bold.ttf</string>
+		<string>Nunito-Regular.ttf</string>
+		<string>Nunito-Medium.ttf</string>
+		<string>Nunito-SemiBold.ttf</string>
+		<string>Nunito-Bold.ttf</string>
 	</array>
 </dict>
 </plist>

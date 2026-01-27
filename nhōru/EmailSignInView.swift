@@ -15,20 +15,22 @@ struct EmailSignInView: View {
     
     var body: some View {
         ZStack {
-            
             VStack(alignment: .leading, spacing: 0) {
+                Spacer().frame(height: 128)
                 
-                Spacer().frame(height: 75)
+                BackButton {
+                    dismiss()
+                }
+                .padding(.bottom, 40)
                 
                 Text("Enter your email")
-                    .appText(size: 24, weight: .medium)
-                
-                Spacer().frame(height: 6)
+                    .appText(size: 24, weight: .medium, textColor: .color4A4740)
+                    .padding(.bottom, 12)
                 
                 Text("We'll send you a magic link to sign in.")
-                    .appText(size: 16)
-                
-                Spacer().frame(height: 24)
+                    .appText(size: 17, textColor: .color6B675F)
+                    .lineSpacing(1.6 * 17)
+                    .padding(.bottom, 30)
                 
                 ZStack(alignment: .leading) {
                     
@@ -46,7 +48,7 @@ struct EmailSignInView: View {
                         .keyboardType(.emailAddress)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
-                        .appText(family: .nunito, size: 17, textColor: Color("#4A4740"))
+                        .appText(family: .nunito, size: 17, textColor: .color4A4740)
                         .padding(.vertical, 16)
                         .padding(.horizontal, 24)
                 }
@@ -75,45 +77,30 @@ struct EmailSignInView: View {
                 }
                 
                 if linkSent {
-                    Spacer().frame(height: 20)
+                    Spacer().frame(height: 30)
                     
-                    VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: 10) {
                         HStack(spacing: 6) {
                             Image(systemName: "checkmark")
                             Text("We've sent a sign-in link to \(email)")
                         }
-                        .appText(size: 13, weight: .medium)
+                        .appText(size: 15, textColor: .color4A4740)
                         
                         Text("It usually arrives within a minute.")
-                            .appText(size: 13)
+                            .appText(size: 15, textColor: .color6B675F)
                     }
                     .foregroundColor(.textPrimary)
                 }
                 
                 Spacer()
             }
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 32)
             .navigationDestination(isPresented: $navigateToChatView) {
                 ChatView()
                     .navigationBarBackButtonHidden(true)
             }
         }
-        
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "arrow.left")
-                        Text("Back")
-                    }
-                    .appText(family: .nunito, size: 15, weight: .medium)
-                }
-            }
-        }
         .navigationBarBackButtonHidden(true)
-        
         .appGradientBackground()
     }
     
@@ -122,6 +109,7 @@ struct EmailSignInView: View {
         withAnimation(.easeInOut) {
             linkSent = true
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2.0) {
+                UserDefaults.standard[.isLogged] = true
                 navigateToChatView = true
             }
         }

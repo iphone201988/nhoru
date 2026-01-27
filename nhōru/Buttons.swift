@@ -31,9 +31,9 @@ struct AuthButton: View {
         Button(action: action) {
             HStack(spacing: 12) {
                 
-                Image(provider.iconName)
-                    .resizable()
-                    .frame(width: 20, height: 20)
+                //                Image(provider.iconName)
+                //                    .resizable()
+                //                    .frame(width: 20, height: 20)
                 
                 Text(provider.title)
                     .appText(family: .nunito, size: 18, weight: .semibold)
@@ -90,5 +90,22 @@ struct AppButton: View {
         )
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.03), radius: 2, y: 1)
+    }
+}
+
+struct BackButton: View {
+    
+    var action: () -> Void
+    
+    var body: some View {
+        Button(action: {
+            action()
+        }) {
+            Text("← Back")
+                .appText(family: .system,
+                         size: 18, weight: .medium,
+                         textColor: .color6B675F)
+                .lineSpacing(1.6 * 18)
+        }
     }
 }

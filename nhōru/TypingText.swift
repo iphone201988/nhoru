@@ -3,14 +3,14 @@ import SwiftUI
 struct TypingTextSequence: View {
     let introLines: [String]
     let speed: Double
-    var pauseBetweenLines: Double = 1.0 // Pause duration in seconds
+    var pauseBetweenLines: Double = 2.0
     var onSequenceComplete: (() -> Void)? = nil
     
     @State private var visibleLines: [String] = []
     @State private var currentIndex = 0
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 30) {
+        VStack(alignment: .leading, spacing: 40) {
             ForEach(visibleLines.indices, id: \.self) { index in
                 TypingText(
                     fullText: visibleLines[index],
@@ -49,7 +49,7 @@ struct TypingText: View {
     
     var body: some View {
         Text(displayedText)
-            .appText(size: 17)
+            .appText(size: 17, textColor: .color4A4740)
             .frame(maxWidth: .infinity, alignment: .leading)
             .onAppear {
                 if startImmediately && !hasStarted {
@@ -76,7 +76,8 @@ struct TypingText: View {
     }
     
     private func typeNextCharacter() {
-        guard index < fullText.count else {
+        guard index < fullText.count
+        else {
             onComplete?()
             return
         }

@@ -26,26 +26,20 @@ struct OnboardingView: View {
                 AppButton(title: "Try nhōru free", isEnabled: true) {
                     navigateToAuthView = true
                 }
-                .padding(.horizontal, 32)
-
+                .padding(.horizontal, 50)
+                
                 Text("Free for 30 days, then $1.99/month")
                     .appText(size: 15)
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(15 * 0.6)
             }
             
-            VStack {
-                Spacer()
-
-                Text("Terms and Privacy  •  support@nhoru.com")
-                    .appText(family: .nunito, size: 13)
-                    .padding(.bottom, 20)
-            }
+            TermsPrivacyAndSupportEmailView()
         }
         
         .navigationDestination(isPresented: $navigateToAuthView) {
             AuthView()
-                
         }
-        
         .appGradientBackground()
     }
 }
