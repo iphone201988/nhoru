@@ -9,12 +9,20 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.564900900235-mll65hq94vte2tqq9kjc91i29i934ckm</string>
+				<string>com.googleusercontent.apps.627997829299-3lt5odub7b9dag4clp7v654s3u88bvh0</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>nhoru-40537</string>
 			</array>
 		</dict>
 	</array>
 	<key>GIDClientID</key>
-	<string>564900900235-mll65hq94vte2tqq9kjc91i29i934ckm.apps.googleusercontent.com</string>
+	<string>627997829299-3lt5odub7b9dag4clp7v654s3u88bvh0.apps.googleusercontent.com</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>DMSans-Regular.ttf</string>

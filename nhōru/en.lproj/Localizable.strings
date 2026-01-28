@@ -1,0 +1,64 @@
+/* Auth */
+"auth.tagline" = "A quick offload to feel lighter.";
+"auth.support_email" = "support@nhoru.com";
+
+/* Debug / Logs */
+"log.apple_user_id" = "Apple User ID: %@";
+"log.apple_email" = "Email: %@";
+"log.apple_name" = "Name: %@";
+"log.apple_error" = "Apple Sign-In failed: %@";
+
+"log.google_error" = "Google Sign-In error: %@";
+"log.google_email" = "Google email: %@";
+"log.google_name" = "Name: %@";
+"log.google_token" = "ID Token: %@";
+
+/* Auth buttons */
+"auth.continue.google" = "Continue with Google";
+"auth.continue.apple"  = "Continue with Apple";
+"auth.continue.email"  = "Continue with Email";
+
+/* Common */
+"button.back" = "← Back";
+
+/* Chat – intro sequence */
+"chat.intro.1" = "You're here.";
+"chat.intro.2" = "We can slow this down.";
+"chat.intro.3" = "Take one slow breath in...";
+"chat.intro.4" = "and let it out.";
+"chat.intro.5" = "When you're ready...";
+"chat.intro.6" = "Is anything weighing on you?";
+
+/* Chat */
+"chat.logout.accessibility" = "Log out";
+
+/* Email sign-in */
+"email.title" = "Enter your email";
+"email.subtitle" = "We'll send you a magic link to sign in.";
+"email.placeholder" = "you@example.com";
+
+"email.send_link" = "Send sign-in link";
+"email.resend_link" = "Resend sign-in link";
+
+"email.link_sent" = "We've sent a sign-in link to %@";
+"email.link_hint" = "It usually arrives within a minute.";
+
+/* Onboarding */
+"onboarding.tagline" = "A quick offload to feel lighter.";
+"onboarding.cta" = "Try nhōru free";
+"onboarding.pricing" = "Free for 30 days, then $1.99/month";
+
+/* Chat input */
+"chat.input.placeholder" = "Put it down here…";
+"chat.input.send" = "Send";
+
+/* Terms & Privacy */
+"terms.title" = "Terms & Privacy";
+"terms.close" = "Close";
+
+/* Terms agreement */
+"terms.agree.prefix" = "By continuing, you agree to our ";
+"terms.link" = "Terms and Privacy";
+
+/* Support */
+"support.email" = "support@nhoru.com";

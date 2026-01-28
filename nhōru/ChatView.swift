@@ -11,7 +11,7 @@ struct ChatView: View {
     @State private var isAnimationEffectDone: Bool = false
     @FocusState private var inputFocused: Bool
     @State private var keyboardHeight: CGFloat = 0
-    @State private var navigateToOnboardingView: Bool = false
+    @EnvironmentObject var auth: AuthManager
     
     private let introLines = [
         "You're here.",
@@ -37,7 +37,7 @@ struct ChatView: View {
                     Spacer()
                     
                     Button {
-                        handleLogout()
+                        auth.logout()
                     } label: {
                         Image(systemName: "rectangle.portrait.and.arrow.right")
                             .font(.system(size: 18, weight: .medium))
@@ -128,10 +128,7 @@ struct ChatView: View {
         .onAppear {
             startAnimation()
         }
-        .navigationDestination(isPresented: $navigateToOnboardingView) {
-            OnboardingView()
-                .navigationBarBackButtonHidden(true)
-        }
+
         .appGradientBackground()
     }
     
@@ -218,10 +215,5 @@ struct ChatView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             //startAnimationLoop()
         }
-    }
-    
-    private func handleLogout() {
-        UserDefaults.standard[.isLogged] = false
-        navigateToOnboardingView = true
     }
 }

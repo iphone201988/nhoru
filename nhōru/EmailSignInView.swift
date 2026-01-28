@@ -6,8 +6,8 @@ struct EmailSignInView: View {
     
     @State private var email: String = ""
     @State private var linkSent: Bool = false
-    @State private var navigateToChatView: Bool = false
     @FocusState private var isEmailFocused: Bool
+    @EnvironmentObject var auth: AuthManager
     
     var isEmailValid: Bool {
         !email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -83,6 +83,7 @@ struct EmailSignInView: View {
                         HStack(spacing: 6) {
                             Image(systemName: "checkmark")
                             Text("We've sent a sign-in link to \(email)")
+                                .multilineTextAlignment(.leading)
                         }
                         .appText(size: 15, textColor: .color4A4740)
                         
@@ -95,10 +96,6 @@ struct EmailSignInView: View {
                 Spacer()
             }
             .padding(.horizontal, 32)
-            .navigationDestination(isPresented: $navigateToChatView) {
-                ChatView()
-                    .navigationBarBackButtonHidden(true)
-            }
         }
         .navigationBarBackButtonHidden(true)
         .appGradientBackground()
@@ -108,10 +105,11 @@ struct EmailSignInView: View {
         guard isEmailValid else { return }
         withAnimation(.easeInOut) {
             linkSent = true
-            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2.0) {
-                UserDefaults.standard[.isLogged] = true
-                navigateToChatView = true
-            }
+            FirebaseManager.shared.sendMagicLink(email: email, completion: { _ in
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2.0) {
+                    //auth.login()
+                }
+            })
         }
     }
 }

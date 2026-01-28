@@ -6,7 +6,7 @@ struct SharedMethods {
                          file: String = #file,
                          function: String = #function,
                          line: Int = #line,
-                         isLogEnable: Bool = false) {
+                         isLogEnable: Bool = true) {
 #if DEBUG
         if isLogEnable {
             let fileName = (file as NSString).lastPathComponent

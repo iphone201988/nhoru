@@ -1,13 +1,14 @@
 import SwiftUI
 import AuthenticationServices
 import GoogleSignIn
+import FirebaseAuth
 
 struct AuthView: View {
     
     @Environment(\.dismiss) private var dismiss
     @State fileprivate var navigateToEmailSignInView: Bool = false
-    @State private var navigateToChatView: Bool = false
     private let appleAuthManager = AppleAuthManager()
+    @EnvironmentObject var auth: AuthManager
     
     var body: some View {
         ZStack {
@@ -31,27 +32,7 @@ struct AuthView: View {
                     }
                     
                     AuthButton(provider: .apple) {
-                        appleAuthManager.onCompletion = { result in
-                            switch result {
-                            case .success(let credential):
-                                let userID = credential.user
-                                let email = credential.email
-                                let fullName = credential.fullName
-                                
-                                SharedMethods.debugLog("Apple User ID: \(userID)")
-                                SharedMethods.debugLog("Email: \(email ?? "N/A")")
-                                SharedMethods.debugLog("Name:\(fullName?.givenName ?? "")")
-                                
-                                UserDefaults.standard[.isLogged] = true
-                                
-                                navigateToChatView = true
-                                
-                            case .failure(let error):
-                                SharedMethods.debugLog("Apple Sign-In failed: \(error.localizedDescription)")
-                            }
-                        }
-                        
-                        appleAuthManager.signIn()
+                        appleSignIn()
                     }
                     
                     AuthButton(provider: .email) {
@@ -81,10 +62,6 @@ struct AuthView: View {
         .navigationDestination(isPresented: $navigateToEmailSignInView) {
             EmailSignInView()
         }
-        .navigationDestination(isPresented: $navigateToChatView) {
-            ChatView()
-                .navigationBarBackButtonHidden(true)
-        }
         .appGradientBackground()
     }
     
@@ -93,62 +70,40 @@ struct AuthView: View {
             .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
             .first?.rootViewController else { return }
         
-        GIDSignIn.sharedInstance.signIn(withPresenting: rootVC) { result, error in
-            if let error = error {
-                SharedMethods.debugLog("Google Sign-In error: \(error.localizedDescription)")
-                return
+        signInWithGoogle(rootVC: rootVC) { result in
+            switch result {
+            case .success(let user):
+                SharedMethods.debugLog("Logged in Firebase user: \(user.uid)")
+                auth.login()
+            case .failure(let error):
+                SharedMethods.debugLog("Login failed: \(error.localizedDescription)")
             }
-            
-            guard let user = result?.user else { return }
-            
-            let email = user.profile?.email
-            let name = user.profile?.name
-            let idToken = user.idToken?.tokenString
-            
-            SharedMethods.debugLog("Google email: \(email ?? "")")
-            SharedMethods.debugLog("Name: \(name ?? "")")
-            SharedMethods.debugLog("ID Token: \(idToken ?? "")")
-            
-            UserDefaults.standard[.isLogged] = true
-            
-            navigateToChatView = true
         }
     }
-}
-
-final class AppleAuthManager: NSObject {
     
-    var onCompletion: ((Result<ASAuthorizationAppleIDCredential, Error>) -> Void)?
-    
-    func signIn() {
-        let provider = ASAuthorizationAppleIDProvider()
-        let request = provider.createRequest()
-        request.requestedScopes = [.fullName, .email]
+    private func appleSignIn() {
+        appleAuthManager.onCompletion = { result in
+            switch result {
+            case .success(let data):
+                FirebaseManager.shared.signInWithApple(
+                    idToken: data.idToken,
+                    rawNonce: data.rawNonce,
+                    fullName: data.fullName
+                ) { result in
+                    switch result {
+                    case .success(let user):
+                        SharedMethods.debugLog("Firebase Apple Sign-In Success: \(user.uid)")
+                        auth.login()
+                    case .failure(let error):
+                        SharedMethods.debugLog("Firebase Apple Sign-In Error: \(error.localizedDescription)")
+                    }
+                }
+                
+            case .failure(let error):
+                SharedMethods.debugLog("Apple Sign-In failed: \(error.localizedDescription)")
+            }
+        }
         
-        let controller = ASAuthorizationController(authorizationRequests: [request])
-        controller.delegate = self
-        controller.presentationContextProvider = self
-        controller.performRequests()
-    }
-}
-
-extension AppleAuthManager: ASAuthorizationControllerDelegate {
-    
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            onCompletion?(.success(credential))
-        }
-    }
-    
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        onCompletion?(.failure(error))
-    }
-}
-
-extension AppleAuthManager: ASAuthorizationControllerPresentationContextProviding {
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        UIApplication.shared.connectedScenes
-            .compactMap { ($0 as? UIWindowScene)?.keyWindow }
-            .first ?? UIWindow()
+        appleAuthManager.signIn()
     }
 }
