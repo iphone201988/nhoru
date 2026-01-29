@@ -62,6 +62,9 @@ struct AuthView: View {
         .navigationDestination(isPresented: $navigateToEmailSignInView) {
             EmailSignInView()
         }
+        .onAppear(perform: {
+            LogActivities.shared.log(using: .authView)
+        })
         .appGradientBackground()
     }
     
@@ -74,7 +77,7 @@ struct AuthView: View {
             switch result {
             case .success(let user):
                 SharedMethods.debugLog("Logged in Firebase user: \(user.uid)")
-                auth.login()
+                auth.login(uid: user.uid, uname: user.displayName ?? "", event: .authViaGoogle)
             case .failure(let error):
                 SharedMethods.debugLog("Login failed: \(error.localizedDescription)")
             }
@@ -93,7 +96,7 @@ struct AuthView: View {
                     switch result {
                     case .success(let user):
                         SharedMethods.debugLog("Firebase Apple Sign-In Success: \(user.uid)")
-                        auth.login()
+                        auth.login(uid: user.uid, uname: user.displayName ?? "", event: .authViaApple)
                     case .failure(let error):
                         SharedMethods.debugLog("Firebase Apple Sign-In Error: \(error.localizedDescription)")
                     }

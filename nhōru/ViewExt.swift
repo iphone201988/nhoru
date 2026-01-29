@@ -41,4 +41,8 @@ extension View {
             self
         }
     }
+    
+    func toastView(toast: Binding<Toast?>) -> some View {
+        self.modifier(ToastViewModifier(toast: toast))
+    }
 }

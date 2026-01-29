@@ -57,7 +57,8 @@ final class FirebaseManager {
         let actionCodeSettings = ActionCodeSettings()
         actionCodeSettings.url = URL(string: "https://nhoru-40537.web.app")
         actionCodeSettings.handleCodeInApp = true
-        actionCodeSettings.setIOSBundleID(Bundle.main.bundleIdentifier!)
+        actionCodeSettings.setIOSBundleID(Bundle.main.bundleIdentifier ?? "")
+        UserDefaults.standard.set(email, forKey: "magicLinkEmail")
         Auth.auth().sendSignInLink(toEmail: email, actionCodeSettings: actionCodeSettings) { error in
             if let error = error {
                 SharedMethods.debugLog("Daily Quota: \(error.localizedDescription)")

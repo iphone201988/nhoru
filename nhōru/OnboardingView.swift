@@ -1,4 +1,5 @@
 import SwiftUI
+import Firebase
 
 struct OnboardingView: View {
     
@@ -40,6 +41,9 @@ struct OnboardingView: View {
         .navigationDestination(isPresented: $navigateToAuthView) {
             AuthView()
         }
+        .onAppear(perform: {
+            LogActivities.shared.log(using: .onboardingView)
+        })
         .appGradientBackground()
     }
 }

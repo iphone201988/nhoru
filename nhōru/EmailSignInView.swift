@@ -84,6 +84,8 @@ struct EmailSignInView: View {
                             Image(systemName: "checkmark")
                             Text("We've sent a sign-in link to \(email)")
                                 .multilineTextAlignment(.leading)
+                                .lineLimit(nil)
+                                .fixedSize(horizontal: false, vertical: true)
                         }
                         .appText(size: 15, textColor: .color4A4740)
                         
@@ -98,6 +100,9 @@ struct EmailSignInView: View {
             .padding(.horizontal, 32)
         }
         .navigationBarBackButtonHidden(true)
+        .onAppear(perform: {
+            LogActivities.shared.log(using: .authView)
+        })
         .appGradientBackground()
     }
     
@@ -107,7 +112,7 @@ struct EmailSignInView: View {
             linkSent = true
             FirebaseManager.shared.sendMagicLink(email: email, completion: { _ in
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2.0) {
-                    //auth.login()
+                    //auth.login(uid: "", uname: "")
                 }
             })
         }
