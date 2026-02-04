@@ -121,26 +121,26 @@ struct ChatView: View {
                     }
                 }
             }
-
+            
             if sequenceFinished {
                 VStack(spacing: 6) {
-              
-                        Text(session.helperText)
-                            .font(.footnote)
-                            .foregroundColor(.gray)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 32)
-                            .padding(.top, 10)
-                            .isHidden(session.helperText.isEmpty, remove: session.helperText.isEmpty)
-                   
-                        Text(session.systemMessage)
-                            .font(.footnote)
-                            .foregroundColor(.gray)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 32)
-                            .padding(.top, 10)
-                            .isHidden(session.systemMessage.isEmpty, remove: session.systemMessage.isEmpty)
-                   
+                    
+                    Text(session.helperText)
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 32)
+                        .padding(.top, 10)
+                        .isHidden(session.helperText.isEmpty, remove: session.helperText.isEmpty)
+                    
+                    Text(session.systemMessage)
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 32)
+                        .padding(.top, 10)
+                        .isHidden(session.systemMessage.isEmpty, remove: session.systemMessage.isEmpty)
+                    
                     PutItDownInput(
                         text: $inputText,
                         keyboardHeight: $keyboardHeight,
@@ -153,6 +153,11 @@ struct ChatView: View {
                         .disabled(session.isInputDisabled)
                         .onChange(of: inputText) { oldValue, newValue in
                             session.validateCharacters(newValue.count)
+                        }
+                        .onChange(of: session.isInputDisabled) { oldValue, newValue in
+                            if newValue == false {
+                                messages.removeAll()
+                            }
                         }
                 }
             }
@@ -172,8 +177,10 @@ struct ChatView: View {
                     message: "Logged In."
                 )
             }
-
-            Task { await iap.refreshSubscriptionStatus() }
+            
+            Task {
+                await iap.refreshSubscriptionStatus()
+            }
         }
         .onChange(of: serviceManager.isInternetAvailable, { oldValue, newValue in
             if newValue {
