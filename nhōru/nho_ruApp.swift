@@ -22,6 +22,7 @@ struct nho_ruApp: App {
             if auth.isLogged {
                 NavigationStack {
                     ChatView()
+                    //PaywallView()
                 }
                 .environmentObject(auth)
                 .environmentObject(iap)

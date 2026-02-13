@@ -8,6 +8,8 @@ struct EmailSignInView: View {
     @State private var linkSent: Bool = false
     @FocusState private var isEmailFocused: Bool
     @EnvironmentObject var auth: AuthManager
+    @State var toast: Toast? = nil
+    let emailRegex = "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
     
     var isEmailValid: Bool {
         !email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -73,7 +75,11 @@ struct EmailSignInView: View {
                 
                 AppButton(title: linkSent ? "Resend sign-in link" : "Send sign-in link",
                           isEnabled: (!email.isEmpty && linkSent == false)) {
-                    sendLink()
+                    if isValidEmail(email) {
+                        sendLink()
+                    } else {
+                        toast = Toast(type: .success, title: "nhōru", message: "Please enter a valid email.")
+                    }
                 }
                 
                 if linkSent {
@@ -104,6 +110,7 @@ struct EmailSignInView: View {
             LogActivities.shared.log(using: .authView)
         })
         .appGradientBackground()
+        .toastView(toast: $toast)
     }
     
     private func sendLink() {
@@ -111,10 +118,15 @@ struct EmailSignInView: View {
         withAnimation(.easeInOut) {
             linkSent = true
             FirebaseManager.shared.sendMagicLink(email: email, completion: { _ in
-                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2.0) {
-                    //auth.login(uid: "", uname: "")
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1.0) {
+                    auth.login(uid: UUID().uuidString, uname: "", event: .authViaEmail)
                 }
             })
         }
+    }
+    
+    private func isValidEmail(_ email: String) -> Bool {
+        let predicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+        return predicate.evaluate(with: email)
     }
 }

@@ -144,6 +144,7 @@
 		8BD0C2AE2F2B3217009FABA5 /* ToastModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD0C2A72F2B3217009FABA5 /* ToastModel.swift */; };
 		8BD0C2B22F2B51F6009FABA5 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD0C2B12F2B51F6009FABA5 /* SessionManager.swift */; };
 		8BD0C2B82F2B85FA009FABA5 /* AIServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD0C2B72F2B85FA009FABA5 /* AIServiceManager.swift */; };
+		8BDCFBB12F3F2E800059090B /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDCFBB02F3F2E800059090B /* PaywallView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -279,6 +280,7 @@
 		8BD0C2A92F2B3217009FABA5 /* ToastViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastViewModifier.swift; sourceTree = "<group>"; };
 		8BD0C2B12F2B51F6009FABA5 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		8BD0C2B72F2B85FA009FABA5 /* AIServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIServiceManager.swift; sourceTree = "<group>"; };
+		8BDCFBB02F3F2E800059090B /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,8 +316,8 @@
 		8B9F2D642F21FE2D002158FE = {
 			isa = PBXGroup;
 			children = (
-				8B9F2D7E2F21FE37002158FE /* nhōru */,
 				8BD0C2A32F2B31A8009FABA5 /* Frameworks */,
+				8B9F2D7E2F21FE37002158FE /* nhōru */,
 				8B9F2D6E2F21FE2D002158FE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -353,6 +355,7 @@
 				8B9F2D7D2F21FE37002158FE /* nho_ruApp.swift */,
 				8B00D0122F2A0A47001E9C26 /* NotificationNameExt.swift */,
 				8B9F2D822F21FED5002158FE /* OnboardingView.swift */,
+				8BDCFBB02F3F2E800059090B /* PaywallView.swift */,
 				8B2007852F28B2B600FF2F40 /* PutItDownInput.swift */,
 				8BD0C2B12F2B51F6009FABA5 /* SessionManager.swift */,
 				8B2007912F28EAA600FF2F40 /* SharedMethods.swift */,
@@ -690,6 +693,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B9F2D8D2F220270002158FE /* EmailSignInView.swift in Sources */,
+				8BDCFBB12F3F2E800059090B /* PaywallView.swift in Sources */,
 				8B2007972F28F0AC00FF2F40 /* StoredKeys.swift in Sources */,
 				8B2007982F28F0AC00FF2F40 /* Keyname.swift in Sources */,
 				8B2007992F28F0AC00FF2F40 /* Extension.swift in Sources */,
@@ -869,7 +873,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y9TKRN8K36;
+				DEVELOPMENT_TEAM = CUCXKZ44P5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "nho-ru-Info.plist";
@@ -884,7 +888,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nhoru.com;
+				PRODUCT_BUNDLE_IDENTIFIER = com.YoungApp.Young;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -906,7 +910,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y9TKRN8K36;
+				DEVELOPMENT_TEAM = CUCXKZ44P5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "nho-ru-Info.plist";
@@ -921,7 +925,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nhoru.com;
+				PRODUCT_BUNDLE_IDENTIFIER = com.YoungApp.Young;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

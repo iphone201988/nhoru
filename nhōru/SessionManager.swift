@@ -14,7 +14,7 @@ final class SessionManager: ObservableObject {
 
     // MARK: - Limits
     private let maxSubmissionsPerSession = 10
-    var maxCharactersPerSubmission = 10
+    var maxCharactersPerSubmission = 100
     private let sessionCooldownSeconds: TimeInterval = 10 * 1 // 10 minutes
     private let backgroundResetSeconds: TimeInterval = 5 * 2  // ~5 minutes
 
@@ -24,6 +24,7 @@ final class SessionManager: ObservableObject {
     @Published private(set) var helperText: String = ""
     @Published private(set) var systemMessage: String = ""
     @Published private(set) var canSubmit: Bool = true
+    @Published var isNewSession: Bool? = nil
 
     // MARK: - Internal State
     private var sessionStartTime: Date = Date()
@@ -112,19 +113,24 @@ final class SessionManager: ObservableObject {
 
     @objc private func appDidEnterBackground() {
         backgroundEnteredAt = Date()
+        print("backgroundEnteredAt1: \(backgroundEnteredAt)")
     }
 
     @objc private func appWillEnterForeground() {
         guard let backgroundTime = backgroundEnteredAt else { return }
+        print("backgroundEnteredAt2: \(backgroundEnteredAt)")
         let elapsed = Date().timeIntervalSince(backgroundTime)
-
+        print("backgroundEnteredAt3: \(elapsed)")
         if elapsed >= backgroundResetSeconds {
+            print("backgroundEnteredAt4:")
             startNewSession()
+            isNewSession = true
         }
         backgroundEnteredAt = nil
     }
 
     @objc private func screenDidLock() {
         startNewSession()
+        isNewSession = true
     }
 }

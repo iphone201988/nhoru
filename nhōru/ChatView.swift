@@ -17,6 +17,8 @@ struct ChatView: View {
     @EnvironmentObject var iap: IAPHandler
     @EnvironmentObject var session: SessionManager
     @EnvironmentObject var serviceManager: AIServiceManager
+    @State private var navigateToPaywallView = false
+    @State private var isBack: Bool = false
     
     private let introLines = [
         "You're here.",
@@ -42,7 +44,7 @@ struct ChatView: View {
                     Spacer()
                     
                     Button {
-                        buyPlan(by: productId)
+                        navigateToPaywallView = true
                     } label: {
                         Image(systemName: iap.isSubscribed ? "crown.fill" : "crown")
                             .appText(family: .system, size: 18, weight: .medium, textColor: .yellow)
@@ -168,7 +170,10 @@ struct ChatView: View {
             inputFocused = false
         }
         .onAppear {
-            startAnimation()
+            if !isBack {
+                startAnimation()
+            }
+            
             LogActivities.shared.log(using: .chatView)
             if auth.isNewlyLogged {
                 toast = Toast(
@@ -189,6 +194,20 @@ struct ChatView: View {
                 toast = Toast(type: .error, title: "nhōru", message: "No Internet")
             }
         })
+        
+        .onChange(of: session.isNewSession, { oldValue, newValue in
+            if newValue == true {
+                messages.removeAll()
+                session.isNewSession = nil
+            }
+        })
+        
+        .fullScreenCover(isPresented: $navigateToPaywallView) {
+            PaywallView(
+                navigateToPaywallView: $navigateToPaywallView,
+                isBack: $isBack
+            )
+        }
         .appGradientBackground()
         .toastView(toast: $toast)
     }
@@ -292,27 +311,6 @@ struct ChatView: View {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             //startAnimationLoop()
-        }
-    }
-    
-    fileprivate func buyPlan(by productIdentifier: String) {
-        IAPHandler.shared.performActionOnPurchasedEvent() { state in
-            if state == .purchased {
-                
-            } else if state == .purchasing || state == .failed {
-                toast = Toast(
-                    type: .success,
-                    title: "Upgrading to Premium",
-                    message: state.message()
-                )
-            }
-        }
-        
-        Task {
-            guard let rootVC = UIApplication.shared.connectedScenes
-                .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
-                .first?.rootViewController else { return }
-            await iap.purchase(productID: productIdentifier, presentingIn: rootVC)
         }
     }
 }
